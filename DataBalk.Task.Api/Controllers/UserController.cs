@@ -70,10 +70,9 @@ public class UserController : ControllerBase
     /// </ul>
     /// </remarks>
     /// <response code="200">Returns the individual User that was added.</response>
-    /// <response code="400">Validation has failed</response>/// 
-    /// <response code="403">Forbidden - Does not have permissions</response>
-    /// <response code="401">Unauthorized</response>
+    /// <response code="400">Validation has failed</response>
     /// <param name="model"></param>
+    [AllowAnonymous]
     [HttpPost]
     public async Task<ActionResult<User>> Add(UserAddOrUpdateModel model) =>
         (await _mediator.Send(_mapper.Map<AddOrUpdateUserCommand>(model).WithDetails(Request, EOperation.Add))).ToResult();

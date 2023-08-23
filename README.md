@@ -38,3 +38,10 @@ User Task Assesment
   * open https://localhost:7124/swagger/index.html in a browser to view swagger documentation.
 * To run the unit tests in solution, navigate to `DataBalk.Task.Api` folder, inside this folder run:
   * run `dotnet test` to restore nuget packages and run the xunit unit tests.
+
+## Using the application
+* Using the ```POST /api/user``` endpoint, which will allow Anonymous so that you can create a user.
+* Once you have created your user.
+* Using the ``` POST /api/auth/token``` endpoint, passing in your newly created user credentials, you will recieve a JWT authorisation token.
+* Copy the token, click the Authorize button on the top left of the API swagger page and past in the token, then click *Authorize* button.
+* You can now call any of the Protected endpoints as they will now contain a valid Bearer token for *Authentication*
