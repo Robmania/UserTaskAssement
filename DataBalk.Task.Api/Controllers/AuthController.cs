@@ -21,6 +21,18 @@ public class AuthController: ControllerBase
         _mediator = mediator;
     }
 
+    /// <summary>
+    /// Get Authorisation Token for User
+    /// </summary>
+    /// <remarks>
+    /// <h3>Summary</h3>
+    /// <ul>
+    /// <li>model validation messages will be returned in 200 response.</li>
+    /// </ul>
+    /// </remarks>
+    /// <response code="200">Returns new token if login was successful</response>
+    /// <response code="400">Validation has failed</response>/// 
+    /// <param name="login"></param>
     [AllowAnonymous]
     [HttpPost("token")]
     public async Task<IActionResult> CreateToken([FromBody] LoginModel login)

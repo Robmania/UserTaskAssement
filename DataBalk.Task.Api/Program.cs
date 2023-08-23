@@ -2,7 +2,7 @@ using Serilog;
 using System.Reflection;
 using DataBalk.Task.Api.Infrastructure;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.Options;
+using System.Reflection;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -101,9 +101,9 @@ void ConfigureServices(WebApplicationBuilder builder)
 
         c.AddSecurityRequirement(securityRequirement);
         // using System.Reflection;
-        //var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-        //c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-        });
+        var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+    });
 
 }
 

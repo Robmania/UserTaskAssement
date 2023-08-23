@@ -7,7 +7,6 @@ using FluentValidation;
 using DataBalk.Task.Api.Infrastructure.Validators;
 using static DataBalk.Task.Api.Constants.TaskConstants;
 using DataBalk.Task.Api.Enums;
-using Microsoft.EntityFrameworkCore;
 using DataBalk.Task.Api.Features.Users.Models;
 using DataBalk.Task.Api.Data.Repositories;
 
@@ -43,7 +42,7 @@ public class AddOrUpdateUserCommandValidator : AbstractValidator<AddOrUpdateUser
                             () =>
                             {
                                 RuleFor(cmd => cmd).MustAsync(UsernameMustNotExistInDb)
-                                    .WithMessage($"A user with this username already exists.")
+                                    .WithMessage("A user with this username already exists.")
                                     .DependentRules(
                                         () =>
                                         {

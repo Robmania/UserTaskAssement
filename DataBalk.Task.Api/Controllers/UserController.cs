@@ -40,11 +40,11 @@ public class UserController : ControllerBase
     /// <response code="200">Returns all items</response>
     /// <response code="403">Forbidden - Does not have permissions</response>
     /// <response code="401">Unauthorized</response>
-    [HttpGet("")]
+    [HttpGet]
     public async Task<ActionResult<List<User>>> GetUsers() => (await _mediator.Send(new GetUsersQuery() { }.WithDetails(Request))).ToResult();
 
     /// <summary>
-    /// Returns a collection of Users
+    /// Returns a single User by Id
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -56,6 +56,7 @@ public class UserController : ControllerBase
     /// <response code="200">Returns all items</response>
     /// <response code="403">Forbidden - Does not have permissions</response>
     /// <response code="401">Unauthorized</response>
+    /// <param name="id"></param>
     [HttpGet("{id}")]
     public async Task<ActionResult<User>> GetUser(long id) => (await _mediator.Send(new GetUserQuery() { Id = id }.WithDetails(Request))).ToResult();
 

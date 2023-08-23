@@ -39,7 +39,7 @@ public class TaskController : ControllerBase
     /// <response code="200">Returns all items</response>
     /// <response code="403">Forbidden - Does not have permissions</response>
     /// <response code="401">Unauthorized</response>
-    [HttpGet("")]
+    [HttpGet]
     public async Task<ActionResult<List<Data.Entities.Task>>> GetTasks() => (await _mediator.Send(new GetTasksQuery() { }.WithDetails(Request))).ToResult();
 
     /// <summary>
@@ -55,6 +55,7 @@ public class TaskController : ControllerBase
     /// <response code="200">Returns all items</response>
     /// <response code="403">Forbidden - Does not have permissions</response>
     /// <response code="401">Unauthorized</response>
+    /// <param name="id"></param>
     [HttpGet("{id}")]
     public async Task<ActionResult<Data.Entities.Task>> GetTask(long id) => (await _mediator.Send(new GetTaskQuery() { Id = id }.WithDetails(Request))).ToResult();
 

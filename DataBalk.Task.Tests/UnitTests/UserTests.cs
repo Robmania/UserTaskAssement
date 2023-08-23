@@ -9,10 +9,9 @@ using DataBalk.Task.Api.Features.Users.Queries;
 using DataBalk.Task.Api.Infrastructure.MediatR;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using DataBalk.Task.Api.Features.Tasks.Commands;
 using DataBalk.Task.Api.Features.Users.Commands;
-using Microsoft.Extensions.Logging;
 using DataBalk.Task.Api.Enums;
+using static DataBalk.Task.Api.Constants.TaskConstants;
 
 namespace DataBalk.Task.Tests.UnitTests;
 public class UserTests : TestFixture
@@ -139,5 +138,107 @@ public class UserTests : TestFixture
         // Assert
         result.Should().BeOfType<SuccessResult>();
         _mockUserRepository.Verify(repo => repo.DeleteUserAsync(It.IsAny<long>(), It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Theory]
+    [MemberData(nameof(TestUserData))]
+    public async System.Threading.Tasks.Task AddOrUpdate_Handle_Validation_Error(long id, string username, string password, string email, EOperation operation, string expectedError)
+    {        
+        // Arrange
+        var user = new User() { Username = username };
+
+        var cmd = new AddOrUpdateUserCommand()
+        {
+            Id = id,
+            Username = username,
+            Password = password,
+            Operation = operation,
+            EMail = email,
+            User = user
+        };
+
+        if (id < 2)
+        {
+            _mockUserRepository.Setup(repo => repo.GetUserByIdAsync(It.IsAny<long>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(_userList.First);
+        }
+        else
+        {
+            cmd.User = null;
+        }
+
+        var commandValidator = new AddOrUpdateUserCommandValidator(_mockUserRepository.Object);
+
+        // Act
+        var result = await commandValidator.ValidateAsync(cmd);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should()
+            .Contain(error => error.ErrorMessage.Contains(expectedError));
+    }
+
+    public static IEnumerable<object[]> TestUserData()
+    {
+        yield return new object[]
+        {
+            0,"Username", "TestPassword@01", "test@test.co.za", EOperation.Update,
+            string.Format(ValidationMessages.OperationDoesNotMatchId, EOperation.Update)
+        };
+        yield return new object[]
+        {
+            1,"Username", "TestPassword@01", "test@test.co.za", EOperation.Add,
+            string.Format(ValidationMessages.OperationDoesNotMatchId, EOperation.Add)
+        };
+        yield return new object[]
+        {
+            0,string.Empty, "TestPassword@01", "test@test.co.za", EOperation.Add,
+            ValidationMessages.RequiredField(nameof(AddOrUpdateUserCommand.Username))
+        };
+        yield return new object[]
+        {
+            0,"Username", "TestPassword@01", "invalid_email", EOperation.Add,
+            "A valid email is required"
+        };
+        yield return new object[]
+        {
+            0,"Username", "TestPassword@01", string.Empty, EOperation.Add,
+            ValidationMessages.RequiredField(nameof(AddOrUpdateUserCommand.EMail))
+        };
+        yield return new object[]
+        {
+            0,"Username",string.Empty, "test@test.co.za", EOperation.Add,
+            ValidationMessages.RequiredField(nameof(AddOrUpdateUserCommand.Password))
+        };
+        yield return new object[]
+        {
+            0,"Username",string.Empty, "test@test.co.za", EOperation.Add,
+            ValidationMessages.RequiredField(nameof(AddOrUpdateUserCommand.Password))
+        };
+        yield return new object[]
+        {
+            0,"Username","short", "test@test.co.za", EOperation.Add,
+            "Your password length must be at least 8."
+        };
+        yield return new object[]
+        {
+            0,"Username","very-long-password", "test@test.co.za", EOperation.Add,
+            "Your password length must not exceed 16."
+        };
+        yield return new object[]
+        {
+            0,"Username","lowercasepwd", "test@test.co.za", EOperation.Add,
+            "Your password must contain at least one uppercase letter."
+        };
+        yield return new object[]
+        {
+            0,"Username","UPPERCASEPWD", "test@test.co.za", EOperation.Add,
+            "Your password must contain at least one lowercase letter."
+        };
+        yield return new object[]
+        {
+            0,"Username","noSpecialChars", "test@test.co.za", EOperation.Add,
+            "Your password must contain at least one (!@#$%^&*)."
+        };
     }
 }
