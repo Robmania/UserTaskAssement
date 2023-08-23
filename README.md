@@ -29,10 +29,12 @@ User Task Assesment
 }
 ```
 * Ensure the above configured connection string points to a database containing the following schema objects:
-  * [Task table]()
-  * [User table]()
+  * [Task table](https://github.com/Robmania/UserTaskAssement/blob/master/DataBalk.Task.Api/Data/Database/DropAndCreateTaskTable.sql)
+  * [User table](https://github.com/Robmania/UserTaskAssement/blob/master/DataBalk.Task.Api/Data/Database/DropAndCreateUserTable.sql)
 * You can drop and recreate the tables to start fresh, using the scripts above
-* From inside the `api` folder:
+* To run the project, navigate to `DataBalk.Task.Api` folder, inside this folder run:
   * run `dotnet build` to restore nuget packages and build api project.
   * run `dotnet run` to start api project.
   * open https://localhost:7124/swagger/index.html in a browser to view swagger documentation.
+* To run the unit tests in solution, navigate to `DataBalk.Task.Api` folder, inside this folder run:
+  * run `dotnet test` to restore nuget packages and run the xunit unit tests.
