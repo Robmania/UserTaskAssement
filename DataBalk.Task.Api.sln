@@ -5,7 +5,12 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBalk.Task.Api", "DataBalk.Task.Api\DataBalk.Task.Api.csproj", "{B32EA698-151A-449F-B501-4176DDF5DAFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBalk.Task.Tests", "DataBalk.Task.Tests\DataBalk.Task.Tests.csproj", "{AF28B9DF-21B6-4401-B983-DCBA1B47A6F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBalk.Task.Tests", "DataBalk.Task.Tests\DataBalk.Task.Tests.csproj", "{AF28B9DF-21B6-4401-B983-DCBA1B47A6F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3CC80722-D099-4919-88F7-18A664FF0A7F}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -101,7 +101,7 @@ void ConfigureServices(WebApplicationBuilder builder)
 
         c.AddSecurityRequirement(securityRequirement);
         // using System.Reflection;
-        var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlFilename = $"{assemblyName}.xml";
         c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
     });
 
